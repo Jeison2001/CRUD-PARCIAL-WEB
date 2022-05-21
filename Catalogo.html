@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD (HTML,CSS Y JavaScript)</title>
+    <link href="css/estilos.css" rel="stylesheet">
+    <script type="text/JavaScript" src="js/crud.js"></script>
+
+</head>
+<body>
+    <header id="container">
+        <h1>Parqueadero</h1>
+        <section id="contenido">
+            <form>
+                <label>N° Boleto</label>
+                <br>
+                <input type="text" class="input-text" id="boleto" readonly><br>
+                <label>Placa</label><br>
+                <input type="text" class="input-text" id="placa" required placeholder="ADB123" pattern="[A-Za-z]{3}[0-9]{3}"><br>
+                <label>Marca</label><br>
+                <input type="text" class="input-text" id="marca"><br>
+                <label>Color</label><br>
+                <input type="text" class="input-text" id="color"><br>
+            </form>
+            <button type="button" id="agregar" onclick="agregar()">Agregar registro</button>
+            <button type="button" id="limpiar" onclick="borrarTabla()">Borrar Registros</button>
+            <br>
+            <P>Lista de Entradas</p>
+            <table id="listaRegistro">
+                <thead>
+                    <tr><th>Id</th>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>color</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="filas">
+
+                </tbody>
+                
+            </table>
+        </section>
+    </header>
+    <!-- Script to remove HTML element 
+    <script>
+        var div = document.getElementById('listaProductos');
+          
+        function agregar() {
+            div.remove();
+        }
+    </script> 
+    -->
+</body>
+</html>

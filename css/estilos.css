@@ -1,0 +1,29 @@
+body{
+    background: white;
+    font-family: 'Lucida Sans';
+    font-size: 1.2em;
+}
+#container h1{
+    text-align: center;
+}
+#contenido{
+    margin-left: 20%;
+    margin-right: 20%;
+
+}
+form{
+    margin-bottom: 10px;
+}
+.input-text{
+    height: 25px;
+    width: 90%;
+}
+.button{
+    height: 30px;
+}
+td{
+    text-align: center;
+}
+img{
+    width: 15px;
+}
