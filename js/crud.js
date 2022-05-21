@@ -8,10 +8,27 @@ var t_registro_insert ="INSERT INTO registro(placa,marca,color) VALUES(?,?,?)";
 //queryde consulta
 var t_registro_consult ="SELECT * FROM registro ORDER BY id DESC";
 var t_registro_delete ="DROP TABLE registro";
+//consultar secuencia
+var t_registro_sequence= " select sec_codigolibros.currval from dual";
+
 let numerofilas;
 
 var idModificar;
 var modificando=false;
+
+function NumeroSecuencia(){
+    db.transaction(function (tx) {
+        var sql = " select *from all_sequences;";
+        tx.executeSql(sql,[],function() {},function (tx, result) {
+            console.log(result);
+        },
+        function(tx,error){
+            console.log("Hubo un error: " + error.message);
+        });
+        
+    });
+}
+
 function limpiar() {
     document.getElementById("placa").value = "";
     document.getElementById("marca").value = "";
@@ -68,7 +85,6 @@ function  eliminarProducto(r){
 function consultarNumeros(){
     db.transaction(function(tx) {
         tx.executeSql(t_registro_consult,undefined,function(tx, result){
-            re
             document.getElementById("boleto").value=(result.rows.length+1);
             
         })
@@ -177,6 +193,7 @@ function crearTabla(){
         });
     });
     cargarDatos();
+    NumeroSecuencia();
     
     
 
