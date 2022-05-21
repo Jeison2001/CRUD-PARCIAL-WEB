@@ -38,6 +38,7 @@ function limpiar() {
 
 // Boton de modificar producto  
 function modificarProducto(r){
+    
     idModificar= r.id.substring(9);
     db.transaction(function (tx){
         tx.executeSql(t_registro_consult,undefined,function(tx,result){
