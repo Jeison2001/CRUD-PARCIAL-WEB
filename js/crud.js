@@ -64,9 +64,11 @@ function  eliminarProducto(r){
     
 };
 
+
 function consultarNumeros(){
     db.transaction(function(tx) {
         tx.executeSql(t_registro_consult,undefined,function(tx, result){
+            re
             document.getElementById("boleto").value=(result.rows.length+1);
             
         })
@@ -79,7 +81,7 @@ function cargarDatos(){
                 tx.executeSql(t_registro_consult,undefined,function(tx, result){
                     if (result.rows.length) {
                         document.getElementById("filas").innerHTML="";
-                        for (var i = 0; i < result.rows.length; i++) {
+                         {
                             var row = result.rows.item(i);
                             var placa = row.placa;
                             var id = row.id;
