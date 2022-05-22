@@ -8,19 +8,27 @@ var t_registro_insert ="INSERT INTO registro(placa,marca,color) VALUES(?,?,?)";
 //queryde consulta
 var t_registro_consult ="SELECT * FROM registro ORDER BY id DESC";
 var t_registro_delete ="DROP TABLE registro";
-//consultar secuencia
-var t_registro_sequence= " select sec_codigolibros.currval from dual";
+//crear secuencia
+var sequence_create= "create sequence sec_id increment by 1";
+//consultar numero secuencia
+var sequence_consult="SELECT  *FROM sqlite_sequence";
+//eliminar secuencia
+var sequence_drop= " drop sequence sec_id";
+
+
 
 let numerofilas;
 
 var idModificar;
 
-// 
-function NumeroSecuencia(){
+// consultar numero de secuencia
+function consultarSecuencia(){
     db.transaction(function (tx) {
-        var sql = " select *from all_sequences;";
-        tx.executeSql(sql,[],function() {},function (tx, result) {
-            console.log(result);
+        tx.executeSql(sequence_consult,undefined,function(tx,result){
+            for(i=0; i< result.rows.length;i++){
+                var row = result.rows.item(i).seq;
+                document.getElementById("boleto").value=(row);
+            }
         },
         function(tx,error){
             console.log("Hubo un error: " + error.message);
@@ -29,8 +37,11 @@ function NumeroSecuencia(){
     });
 };
 
+
+
 // limpiar campos
 function limpiar() {
+    consultarSecuencia();
     document.getElementById("placa").value = "";
     document.getElementById("marca").value = "";
     document.getElementById("color").value = "";
@@ -59,7 +70,6 @@ function modificarProducto(r){
             console.log("Hubo un error: " + error.message);
         });
     });
-    modificando=true;
 };
 
 // Eliminar un solo registro
@@ -77,17 +87,8 @@ function  eliminarProducto(r){
         
     });
     cargarDatos()
+    consultarSecuencia();
     
-};
-
-// Numero del boleto 
-function consultarBoleto(){
-    db.transaction(function(tx) {
-        tx.executeSql(t_registro_consult,undefined,function(tx, result){
-            document.getElementById("boleto").value=(result.rows.length+1);
-            
-        })
-    });
 };
 
 // Cargar datos a la lista 
@@ -127,8 +128,9 @@ function borrarTabla(){
         function(tx,error){
             console.log("Hubo un error: " + error.message);
         });
-});
- crearTabla();
+    });
+    crearTabla();
+    
 };
 
 // Agregar regitro
@@ -143,7 +145,7 @@ function agregar(){
     });
     limpiar();
     cargarDatos();
-    consultarNumeros();
+    consultarSecuencia();
 };
 
 // Modificar registro
@@ -162,7 +164,7 @@ function modificar(){
     });
     limpiar();
     cargarDatos();
-    consultarNumeros();
+    consultarSecuencia();
 };
 
 // Crear tabla 
@@ -175,11 +177,13 @@ function crearTabla(){
             console.log("Hubo un error: " + error.message);
         });
     });
+    cargarDatos();
+    consultarSecuencia();
 };
 
 //creacion de tabla
 (function(){
-    consultarBoleto();
+    document.getElementById("boleto").value=1;
     db.transaction(function(tx){
         tx.executeSql(t_registro,[],function (tx,result) {
             console.log("la tabla se creo con exito")
@@ -188,6 +192,6 @@ function crearTabla(){
             console.log("Hubo un error: " + error.message);
         });
     });
+    consultarSecuencia();
     cargarDatos();
-    NumeroSecuencia();
 })();
