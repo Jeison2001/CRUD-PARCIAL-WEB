@@ -27,6 +27,7 @@ function consultarSecuencia(){
         tx.executeSql(sequence_consult,undefined,function(tx,result){
             for(i=0; i< result.rows.length;i++){
                 var row = result.rows.item(i).seq;
+                row++;
                 document.getElementById("boleto").value=(row);
             }
         },
@@ -129,8 +130,16 @@ function borrarTabla(){
             console.log("Hubo un error: " + error.message);
         });
     });
+    document.getElementById("boleto").value=1;
     crearTabla();
     
+};
+
+function validarPlaca(placa){
+if(placa.length==6){
+    letras=placa.substring(0,3);
+    console.log(letras);
+}
 };
 
 // Agregar regitro
@@ -138,14 +147,16 @@ function agregar(){
     var placa = document.getElementById("placa").value;
     var marca = document.getElementById("marca").value;
     var color = document.getElementById("color").value;
-    db.transaction(function (tx) {
-        tx.executeSql(t_registro_insert,[placa, marca,color],function() {},function (tx, err) {
-            alert(err.message);
+    if(validarPlaca()){
+        db.transaction(function (tx) {
+            tx.executeSql(t_registro_insert,[placa, marca,color],function() {},function (tx, err) {
+                alert(err.message);
+            });
         });
-    });
-    limpiar();
-    cargarDatos();
-    consultarSecuencia();
+        limpiar();
+        cargarDatos();
+        consultarSecuencia();
+    }
 };
 
 // Modificar registro
