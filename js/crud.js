@@ -135,19 +135,11 @@ function borrarTabla(){
     
 };
 
-function validarPlaca(placa){
-if(placa.length==6){
-    letras=placa.substring(0,3);
-    console.log(letras);
-}
-};
-
 // Agregar regitro
 function agregar(){
     var placa = document.getElementById("placa").value;
     var marca = document.getElementById("marca").value;
     var color = document.getElementById("color").value;
-    if(validarPlaca()){
         db.transaction(function (tx) {
             tx.executeSql(t_registro_insert,[placa, marca,color],function() {},function (tx, err) {
                 alert(err.message);
@@ -156,7 +148,6 @@ function agregar(){
         limpiar();
         cargarDatos();
         consultarSecuencia();
-    }
 };
 
 // Modificar registro
