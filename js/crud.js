@@ -1,24 +1,16 @@
 //Conexion base de datos
 var db = openDatabase("registroDB","1.0","Base de datos de registro del parqueadero",2*1024*124);
 // crear tabla
-//var t_producto = "CREATE TABLE  producto(id real uniqute,nombre text, valor number)";
 var t_registro = "CREATE TABLE  registro(id INTEGER PRIMARY KEY AUTOINCREMENT, placa VARCHAR (6) NOT NULL,marca VARCHAR (50) NOT NULL,color VARCHAR (50) NOT NULL)";
 // creamos la query de inseercion
 var t_registro_insert ="INSERT INTO registro(placa,marca,color) VALUES(?,?,?)";
 //queryde consulta
 var t_registro_consult ="SELECT * FROM registro ORDER BY id DESC";
 var t_registro_delete ="DROP TABLE registro";
-//crear secuencia
-var sequence_create= "create sequence sec_id increment by 1";
 //consultar numero secuencia
 var sequence_consult="SELECT  *FROM sqlite_sequence";
-//eliminar secuencia
-var sequence_drop= " drop sequence sec_id";
 
-
-
-let numerofilas;
-
+var numerofilas;
 var idModificar;
 
 // consultar numero de secuencia
@@ -76,7 +68,6 @@ function modificarProducto(r){
 // Eliminar un solo registro
 function  eliminarProducto(r){
     var i= r.id.substring(8);
-    console.log(i);
     db.transaction(function (tx) {
         var sql = "DELETE FROM registro WHERE id="+i+";";
         tx.executeSql(sql,[],function() {},function (tx, result) {
@@ -182,6 +173,7 @@ function agregar(){
     }
         
 };
+
 
 // Modificar registro
 function modificar(){
