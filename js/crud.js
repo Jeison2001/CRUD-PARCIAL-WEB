@@ -135,11 +135,40 @@ function borrarTabla(){
     
 };
 
+const patternLetra = new RegExp('^[A-Z]+$', 'i');
+const patternNumero = new RegExp('^[0-9]+$');
+
+//validar placa
+function validarPlaca(placa){
+    var valido=true;
+    if(placa.length===6){
+        let letras=placa.substring(0,3);
+        if(!patternLetra.test(letras)){
+            valido=false;
+        }
+        let numeros=placa.substring(3,5);
+        if(!patternNumero.test(numeros)){
+            valido=false;
+        }
+        let finalPlaca=placa.substring(5);
+        if(patternLetra.test(finalPlaca) || patternNumero.test(finalPlaca)){
+        }else{
+            valido=false;
+        }
+    }else{
+        valido=false;
+    }
+    
+
+    return valido;
+}
+
 // Agregar regitro
 function agregar(){
     var placa = document.getElementById("placa").value;
     var marca = document.getElementById("marca").value;
     var color = document.getElementById("color").value;
+    if(validarPlaca(placa)){
         db.transaction(function (tx) {
             tx.executeSql(t_registro_insert,[placa, marca,color],function() {},function (tx, err) {
                 alert(err.message);
@@ -148,6 +177,10 @@ function agregar(){
         limpiar();
         cargarDatos();
         consultarSecuencia();
+    }else{
+        alert("placa invalida");
+    }
+        
 };
 
 // Modificar registro
